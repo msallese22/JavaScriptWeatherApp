@@ -1,0 +1,10 @@
+body{
+    font-family: 'Comic Sans MS', 'serif';
+}
+.navbar{
+    background-color: cornflowerblue;
+}
+.navbar-nav .nav-link.active,.nav-link
+{
+    color: white;
+}
