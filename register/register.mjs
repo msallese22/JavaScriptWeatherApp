@@ -1,3 +1,5 @@
+import {getCookieValue} from "../utils.mjs";
+
 const form = document.getElementById('reg-form');
 
 
@@ -9,15 +11,20 @@ document.addEventListener('DOMContentLoaded', () =>
 
 function getLogin()
 {
-    form.addEventListener('submit', (e) =>
+    form.addEventListener('submit', (event) =>
     {
-        e.preventDefault();
-        const formData = new FormData(e.target);
+        console.log("submit");
+        event.preventDefault();
+        const formData = new FormData(event.target);
 
-        document.cookie= `userData=${JSON.stringify(formData)}`;//has the whole thing, not just crumbs. and don't
+        const date = new Date();
+        date.setFullYear(date.getFullYear() + 1);
+
+        document.cookie= `userData=${JSON.stringify(formData)}; expires=${date.toUTCString()}`;//has the whole thing, not just crumbs. and don't
         document.cookie = `email=${formData.get('email')}`
 
-        location.href='../index/index.html';
+        document.location.href='../index/index.html';
     });
 }
+
 

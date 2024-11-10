@@ -4,6 +4,7 @@ const form = document.getElementById('form');
 document.addEventListener('DOMContentLoaded', () =>
 {
 
+    console.log('loaded');
     getLogin()
     loadCookies();
 
@@ -18,6 +19,12 @@ function getLogin()
         e.preventDefault();
         const formData = new FormData(e.target);
         document.cookie= `email=${formData.get('email')}`;
+        document.cookie= `userData=${JSON.stringify(formData)}`;//has the whole thing, not just crumbs. and don't
+        document.cookie = `email=${formData.get('email')}`
+
+        document.location.href='../index/index.html';
+
+        console.log('login');
 
     });
 }
