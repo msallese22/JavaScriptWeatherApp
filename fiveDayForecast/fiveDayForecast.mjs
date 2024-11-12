@@ -1,0 +1,1 @@
+const url = "https://openweathermap.org/forecast5#zip5";

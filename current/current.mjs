@@ -1,17 +1,22 @@
-const url = "https://api.open-meteo.com/v1/forecast?latitude=40.79&longitude=-77.86&temperature_unit=fahrenheit&windspeed_unit=mph&precipitation_unit=inch&current_weather=true&timezone=EST"
+import {getCookieValue} from "../utils.mjs";
 
+const url = "https://openweathermap.org/current?zip";
 
 document.addEventListener('DOMContentLoaded', async () =>
 {
     const data = await findWeatherData();
     addWeatherToPage(data);
+
 })
+
+
 
 async function findWeatherData()
 {
     try
     {
-        const results = await fetch(url);
+        const zipcode = JSON.parse(getCookieValue('userData')).zipcode;
+        const results = await fetch(`${url}=${zipcode}&appId=9607101263e6ad088432f64060e2adac`);
 
         if(results.ok===false)
         {
@@ -32,8 +37,10 @@ async function findWeatherData()
 
 function addWeatherToPage(data)
 {
-    let temp = document.getElementById('temperature');
-    let wind = document.getElementById('windspeed');
+    const temp = document.getElementById('temperature');
+    const wind = document.getElementById('windspeed');
+    const feels = document.getElementById('feels-like');
+    const description = document.getElementById('description');
 
     const thermometer = document.getElementById('thermometer');
     const windy = document.getElementById('windy');
@@ -42,10 +49,15 @@ function addWeatherToPage(data)
     windy.classList.remove('hidden');
 
     document.title = `Weather in ${data.name}`;
-    tempP.textContent = `Temperature ${data.current_weather.temperature}°F`;
-    temp.appendChild(thermometer);
-    temp.appendChild(tempP);
-    windP.textContent = `Wind Speed ${data.current_weather.windspeed} MPH`;
-    wind.appendChild(windy);
-    wind.appendChild(windP);
+    temp.textContent = `Temperature: ${data.current_weather.temperature}°F`;
+
+    feels.textContent = `Feels Like: ${data.current_weather.realfeel}°F`;
+
+    wind.textContent = `Wind Speed ${data.current_weather.windspeed} MPH`;
+
+    description.textContent= `Current weather is: ${data.current_weather.description}`
+
+
+
+//setinterval30seconds :)
 }
