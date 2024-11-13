@@ -8,3 +8,9 @@ body{
 {
     color: white;
 }
+
+.flex-row
+{
+    display: flex;
+    flex-direction: row;
+}

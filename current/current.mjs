@@ -1,22 +1,11 @@
 import {getCookieValue} from "../utils.mjs";
 
-const url = "https://openweathermap.org/current?zip";
-
-document.addEventListener('DOMContentLoaded', async () =>
-{
-    const data = await findWeatherData();
-    addWeatherToPage(data);
-
-})
-
-
-
 async function findWeatherData()
 {
     try
     {
         const zipcode = JSON.parse(getCookieValue('userData')).zipcode;
-        const results = await fetch(`${url}=${zipcode}&appId=9607101263e6ad088432f64060e2adac`);
+        const results = await fetch(`${url}units=imperial&zip=${zipcode},us&appId=9607101263e6ad088432f64060e2adac`);
 
         if(results.ok===false)
         {
@@ -26,6 +15,7 @@ async function findWeatherData()
         const data = await results.json();
         console.log(data);
         return data;
+
     }
     catch(err)
     {
@@ -34,6 +24,28 @@ async function findWeatherData()
     }
 }
 
+const url = 'https://api.openweathermap.org/data/2.5/weather?';
+
+document.addEventListener('DOMContentLoaded', async () =>
+{
+    const data = await findWeatherData();
+    addWeatherToPage(data);
+
+    setInterval(async()=>
+    {
+        const data = await findWeatherData();
+        addWeatherToPage(data);
+        //console.log('30 seconds!'); this works!
+    },30000);
+
+
+
+});
+
+
+
+
+
 
 function addWeatherToPage(data)
 {
@@ -41,6 +53,7 @@ function addWeatherToPage(data)
     const wind = document.getElementById('windspeed');
     const feels = document.getElementById('feels-like');
     const description = document.getElementById('description');
+    const location = document.getElementById('location');
 
     const thermometer = document.getElementById('thermometer');
     const windy = document.getElementById('windy');
@@ -49,15 +62,14 @@ function addWeatherToPage(data)
     windy.classList.remove('hidden');
 
     document.title = `Weather in ${data.name}`;
-    temp.textContent = `Temperature: ${data.current_weather.temperature}°F`;
 
-    feels.textContent = `Feels Like: ${data.current_weather.realfeel}°F`;
+    location.textContent = `Your Weather in ${data.name}`;
 
-    wind.textContent = `Wind Speed ${data.current_weather.windspeed} MPH`;
+    temp.textContent = `Temperature: ${data.main.temp} °F`;
 
-    description.textContent= `Current weather is: ${data.current_weather.description}`
+    feels.textContent = `Feels Like: ${data.main.feels_like} °F`;
 
+    wind.textContent = `Wind Speed: ${data.wind.speed} MPH`;
 
-
-//setinterval30seconds :)
+    description.textContent= `Current weather is: ${data.weather[0].description}`
 }
