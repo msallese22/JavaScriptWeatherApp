@@ -1,8 +1,14 @@
-import {getCookieValue} from "../utils.mjs";
+import {getCookieValue, logoutBro, updateGUI} from "../utils.mjs";
 
 document.addEventListener('DOMContentLoaded', () =>
 {
     getGreeting();
+    updateGUI(getCookieValue('darkmode'));
+    logoutBro();
+    if(getCookieValue('email') === undefined)
+    {
+        location.href='login.html';
+    }
 });
 
 function getGreeting()
@@ -11,13 +17,6 @@ function getGreeting()
     let greeting = document.getElementById('greeting');
     let currentBtn =document.getElementById('current-btn');
     let fiveBtn = document.getElementById('five-btn');
-    if(getCookieValue('email') === undefined)
-    {
-        greeting.innerHTML = 'Hello! Please sign in to view your weather data!'
-        currentBtn.classList.add('hidden');
-        fiveBtn.classList.add('hidden');
-    }
-    else
     {
         greeting.innerHTML = `Hello, ${getCookieValue('email')}`
         currentBtn.classList.remove('hidden');

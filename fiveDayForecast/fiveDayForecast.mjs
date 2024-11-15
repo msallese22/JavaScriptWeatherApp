@@ -1,10 +1,20 @@
-import {getCookieValue} from "../utils.mjs";
+import {getCookieValue, logoutBro, updateGUI} from "../utils.mjs";
+
+document.addEventListener('DOMContentLoaded', () =>
+{
+    updateGUI(getCookieValue('darkmode'));
+    logoutBro();
+    if(getCookieValue('email') === undefined)
+    {
+        location.href='login.html';
+    }
+});
 
 async function findWeatherData()
 {
     try
     {
-        const zipcode = JSON.parse(getCookieValue('userData')).zipcode;
+        const zipcode = JSON.parse(localStorage.getItem('userData')).zipcode;
         const results = await fetch(`${url}units=imperial&zip=${zipcode},us&appId=9607101263e6ad088432f64060e2adac`);
 
         if(results.ok===false)

@@ -1,10 +1,19 @@
-import {getCookieValue} from "../utils.mjs";
+import {getCookieValue, updateGUI, logoutBro} from "../utils.mjs";
 
+document.addEventListener('DOMContentLoaded', () =>
+{
+    updateGUI(getCookieValue('darkmode'));
+    logoutBro();
+    if(getCookieValue('email') === undefined)
+    {
+       location.href='login.html';
+    }
+});
 async function findWeatherData()
 {
     try
     {
-        const zipcode = JSON.parse(getCookieValue('userData')).zipcode;
+        const zipcode = JSON.parse(localStorage.getItem('userData')).zipcode;
         const results = await fetch(`${url}units=imperial&zip=${zipcode},us&appId=9607101263e6ad088432f64060e2adac`);
 
         if(results.ok===false)
@@ -37,14 +46,7 @@ document.addEventListener('DOMContentLoaded', async () =>
         addWeatherToPage(data);
         //console.log('30 seconds!'); this works!
     },30000);
-
-
-
 });
-
-
-
-
 
 
 function addWeatherToPage(data)
@@ -71,5 +73,5 @@ function addWeatherToPage(data)
 
     wind.textContent = `Wind Speed: ${data.wind.speed} MPH`;
 
-    description.textContent= `Current weather is: ${data.weather[0].description}`
+    description.textContent= `Current weather is: ${data.weather[0].description}`;
 }

@@ -1,4 +1,4 @@
-import {getCookieValue} from "../utils.mjs";
+import {getCookieValue, logoutBro, updateGUI} from "../utils.mjs";
 
 const form = document.getElementById('reg-form');
 
@@ -7,13 +7,14 @@ const form = document.getElementById('reg-form');
 document.addEventListener('DOMContentLoaded', () =>
 {
     getLogin();
+    updateGUI(getCookieValue('darkmode'));
+    logoutBro();
 });
 
 function getLogin()
 {
     form.addEventListener('submit', (event) =>
     {
-        console.log("submit");
         event.preventDefault();
         const formData = new FormData(event.target);
 
@@ -27,7 +28,7 @@ function getLogin()
         const date = new Date();
         date.setFullYear(date.getFullYear() + 1);
 
-        document.cookie= `userData=${JSON.stringify(userInformation)}; expires=${date.toUTCString()}`;//has the whole thing, not just crumbs. and don't
+        localStorage.setItem('userData', JSON.stringify(userInformation));//has the whole thing, not just crumbs. and don't
         document.cookie = `email=${formData.get('email')}`;
         window.location.href='index.html';
     });
