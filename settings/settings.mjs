@@ -23,10 +23,10 @@ function submitSettings()
         document.cookie = `darkmode = ${formData.get('dark-mode')}`;
         updateGUI(formData.get('dark-mode'));
         const userData = JSON.parse(localStorage.getItem('userData'));
-        userData.zipcode = formData.get('change-zip');
+        const currentUser = userData.find(user => user.email === getCookieValue('email'));
+        currentUser.zipcode = formData.get('change-zip');
 
         localStorage.setItem('userData', JSON.stringify(userData));
     });
 }
-
 

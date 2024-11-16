@@ -13,7 +13,8 @@ async function findWeatherData()
 {
     try
     {
-        const zipcode = JSON.parse(localStorage.getItem('userData')).zipcode;
+        const userData = JSON.parse(localStorage.getItem('userData'));
+        const zipcode = userData.find(user => user.email === getCookieValue('email')).zipcode;
         const results = await fetch(`${url}units=imperial&zip=${zipcode},us&appId=9607101263e6ad088432f64060e2adac`);
 
         if(results.ok===false)
@@ -67,11 +68,11 @@ function addWeatherToPage(data)
 
     location.textContent = `Your Weather in ${data.name}`;
 
-    temp.textContent = `Temperature: ${data.main.temp} °F`;
+    temp.textContent = `Temperature: ${Math.round(data.main.temp)} °F`;
 
-    feels.textContent = `Feels Like: ${data.main.feels_like} °F`;
+    feels.textContent = `Feels Like: ${Math.round(data.main.feels_like)} °F`;
 
-    wind.textContent = `Wind Speed: ${data.wind.speed} MPH`;
+    wind.textContent = `Wind Speed: ${Math.round(data.wind.speed)} MPH`;
 
     description.textContent= `Current weather is: ${data.weather[0].description}`;
 }
