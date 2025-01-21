@@ -71,12 +71,14 @@ function addWeatherToPage(data, index)
 
     const thermometer = document.getElementById(`thermometer${index+1}`);
     const windy = document.getElementById(`windy${index+1}`);
+    //icons aren't displaying?
 
     thermometer.classList.remove('hidden');
     windy.classList.remove('hidden');
 
 
     temp.textContent = `Temperature: ${Math.round(data.main.temp)} °F`;
+
 
     feels.textContent = `Feels Like: ${Math.round(data.main.feels_like)} °F`;
 
