@@ -1,0 +1,1 @@
+In this project, I focused on using API calls to OpenWeather to display weather data to users. A user must first make an account so information about their location and display preferenes presist between sessions. I would like to return to this project at some point and make the user interface more appealing, but in terms of user experience, I think it's a really good start.
